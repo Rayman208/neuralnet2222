@@ -13,7 +13,7 @@ void SetInputs(vector<float> test, vector<Neuron> &inputs)
 
 void main()
 {
-	const float speed = 0.1f;
+	const float speed = 0.7f;
 	srand(time(NULL));
 
 	vector<vector<float>> tests;//война, нефть, кредит, трудоспособность
@@ -34,7 +34,10 @@ void main()
 	tests.push_back(vector<float>() = { 1,1,0,0 });
 	answers.push_back(1);
 
-	tests.push_back(vector<float>() = { 0,1,1,0 });
+	tests.push_back(vector<float>() = { 0,0,0,0 });
+	answers.push_back(1);
+
+	tests.push_back(vector<float>() = { 0,0,1,0 });
 	answers.push_back(1);
 
 	vector<Neuron> inputs(4);
@@ -51,9 +54,9 @@ void main()
 		output.SetConnection(&hidden[h], (rand() % 100) / 100.0);
 	}
 
-	for (int generation = 0; generation < 50000; generation++)
+	for (int generation = 0; generation < 10000; generation++)
 	{
-		int indexTest = rand() % tests.size();
+		int indexTest = rand() % (tests.size() - 1);
 
 		SetInputs(tests[indexTest], inputs);
 		for (int h = 0; h < hidden.size(); h++)
@@ -94,7 +97,7 @@ void main()
 		cout << "expected: " << answers[indexTest] << endl << endl;*/
 	}
 
-	SetInputs(tests[0], inputs);
+	SetInputs(tests[tests.size()-1], inputs);
 	for (int h = 0; h < hidden.size(); h++)
 	{
 		hidden[h].Activate();
@@ -102,7 +105,23 @@ void main()
 	output.Activate();
 
 	cout << "actual: " << output.GetOutput() << endl;
-	cout << "expected: " << answers[1] << endl << endl; 
+	cout << "expected: " << answers[tests.size() - 1] << endl << endl;
+
+	
+		for (int h = 0; h < hidden.size(); h++)
+		{
+			for (int i = 0; i < inputs.size(); i++)
+			{
+				cout << "hidden " << h << " <--- " <<hidden[h].GetWeight(&inputs[i]) << " inputs " <<i<< endl;
+			}
+			cout << endl << endl;
+		}
+	
+	for (int h = 0; h < hidden.size(); h++)
+	{
+		cout << "output " << " <--- " << output.GetWeight(&hidden[h]) << endl;
+	}
+	cout << endl << endl;
 
 	cin.get();
 }
