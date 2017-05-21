@@ -36,3 +36,13 @@ void Neuron::Activate()
 
 	m_output = 1.0 / (1.0 + exp(-net));
 }
+
+float Neuron::GetWeight(Neuron * neuron)
+{
+	return m_inputConnections[neuron];
+}
+
+void Neuron::SetWeight(Neuron * neuron, float weight)
+{
+	m_inputConnections[neuron] = weight;
+}

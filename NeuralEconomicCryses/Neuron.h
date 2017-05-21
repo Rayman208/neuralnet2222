@@ -20,5 +20,8 @@ public:
 	void SetOutput(float output);
 
 	void Activate();
+
+	float GetWeight(Neuron * neuron);
+	void SetWeight(Neuron * neuron, float weight);
 };
 
